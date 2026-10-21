@@ -38,6 +38,12 @@ function hungphat_theme_setup() {
         'primary-menu' => 'Menu Chính (Header)',
         'footer-menu'  => 'Menu Chân Trang (Footer)'
     ]);
+
+    // Ensure Vietnam Timezone (Asia/Ho_Chi_Minh, GMT+7)
+    if (get_option('timezone_string') !== 'Asia/Ho_Chi_Minh') {
+        update_option('timezone_string', 'Asia/Ho_Chi_Minh');
+        update_option('gmt_offset', 7);
+    }
 }
 
 // Enqueue Styles & Scripts

@@ -73,7 +73,7 @@ function hungphat_handle_export_leads_csv() {
                 $lead['budget'],
                 $lead['notes'],
                 isset($status_labels[$lead['status']]) ? $status_labels[$lead['status']] : $lead['status'],
-                $lead['created_at']
+                date('H:i d/m/Y', strtotime($lead['created_at']))
             ]);
         }
 
