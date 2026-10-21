@@ -29,8 +29,20 @@ define( 'NONCE_SALT',       'T*0oO~4aS+8dF?2gH<6jK>9vN#3mP!7qW$1eR%5tY^9uI&3' );
 $table_prefix = 'wp_';
 
 define( 'WP_DEBUG', false );
-define( 'WP_SITEURL', 'http://localhost/Hung_Phat_Ads' );
-define( 'WP_HOME', 'http://localhost/Hung_Phat_Ads' );
+// Hỗ trợ SSL Termination từ Cloudflare / Reverse Proxy để tránh vòng lặp chuyển hướng (Too many redirects)
+if ( isset( $_SERVER['HTTP_X_FORWARDED_PROTO'] ) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https' ) {
+    $_SERVER['HTTPS'] = 'on';
+}
+
+// Cấu hình URL động (Hỗ trợ truy cập cả localhost và link tạm thời Cloudflare Tunnel từ xa)
+if ( isset( $_SERVER['HTTP_HOST'] ) ) {
+    $protocol = ( ! empty( $_SERVER['HTTPS'] ) && $_SERVER['HTTPS'] !== 'off' ) ? 'https://' : 'http://';
+    define( 'WP_SITEURL', $protocol . $_SERVER['HTTP_HOST'] . '/Hung_Phat_Ads' );
+    define( 'WP_HOME',    $protocol . $_SERVER['HTTP_HOST'] . '/Hung_Phat_Ads' );
+} else {
+    define( 'WP_SITEURL', 'http://localhost/Hung_Phat_Ads' );
+    define( 'WP_HOME',    'http://localhost/Hung_Phat_Ads' );
+}
 
 /* That's all, stop editing! Happy publishing. */
 
